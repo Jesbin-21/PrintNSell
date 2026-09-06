@@ -1,16 +1,61 @@
-# React + Vite
+# PrintNSell
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack MERN e-commerce platform for buying and selling 3D-printed products.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+* React
+* Vite
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JWT Authentication
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+* User registration and login
+* Product browsing
+* Product details
+* Shopping cart
+* Checkout
+* Address management
+* Order management
+* Seller dashboard
+* Product management
+* Product reviews
+* Authentication and authorization
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+PrintNSell/
+├── backend/
+├── public/
+├── src/
+├── package.json
+└── README.md
+```
+
+## Getting Started
+
+### Frontend
+
+```bash
+npm install
+npm run dev
+```
+
+### Backend
+
+```bash
+cd backend
+npm install
+node server.js
+```
+
+Create a `backend/.env` file and add your required environment variables.
+
+## Author
+
+Jesbin
