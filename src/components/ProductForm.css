@@ -1,0 +1,413 @@
+/* =========================
+   PRODUCT FORM CONTAINER
+========================= */
+
+.productForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+
+/* =========================
+   TOP INFORMATION
+========================= */
+
+.productForm .info {
+  width: 100%;
+  max-width: 850px;
+  margin-bottom: 25px;
+}
+
+.productForm .info h2 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  font-weight: 800;
+  color: #111;
+}
+
+.productForm .info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.productForm form {
+  width: 100%;
+  max-width: 850px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.productForm .sub {
+  width: 100%;
+  box-sizing: border-box;
+
+  background: rgb(250, 250, 250);
+
+  border: 2px solid rgba(155, 154, 154, 0.418);
+  border-radius: 20px;
+
+  padding: 28px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+/* Section heading */
+
+.productForm .basic {
+  margin: 0 0 5px;
+
+  font-size: 23px;
+  font-weight: 800;
+
+  color: #111;
+
+  border-bottom: 1px solid rgba(117, 117, 117, 0.25);
+  padding-bottom: 14px;
+}
+
+
+/* =========================
+   INPUT FIELD
+========================= */
+
+.productForm .inputField {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+/* Labels */
+
+.productForm .inputField h1 {
+  margin: 0;
+
+  font-size: 15px;
+  color: #020202;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.productForm input,
+.productForm textarea,
+.productForm select {
+  width: 100%;
+  box-sizing: border-box;
+
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+
+  color: #020202;
+
+  background: #fff;
+
+  border: 2px solid rgba(117, 117, 117, 0.35);
+  border-radius: 10px;
+
+  outline: none;
+
+  transition: 0.15s ease-in-out;
+}
+
+
+/* Text / number inputs */
+
+.productForm input {
+  height: 48px;
+  padding: 0 15px;
+}
+
+
+/* Select */
+
+.productForm select {
+  height: 48px;
+  padding: 0 14px;
+
+  cursor: pointer;
+}
+
+
+/* Textarea */
+
+.productForm textarea {
+  min-height: 130px;
+
+  padding: 14px 15px;
+
+  resize: vertical;
+
+  line-height: 1.5;
+}
+
+
+/* Placeholder */
+
+.productForm input::placeholder,
+.productForm textarea::placeholder {
+  color: #999;
+}
+
+
+/* Hover */
+
+.productForm input:hover,
+.productForm textarea:hover,
+.productForm select:hover {
+  border-color: rgba(80, 80, 80, 0.6);
+}
+
+
+/* Focus */
+
+.productForm input:focus,
+.productForm textarea:focus,
+.productForm select:focus {
+  border-color: var(--accent-primary);
+
+  background: rgba(157, 255, 0, 0.08);
+
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.18);
+}
+
+
+/* =========================
+   CATEGORY + MATERIAL
+========================= */
+
+.productForm .one {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 20px;
+}
+
+
+/* =========================
+   PRICE / STOCK HELP TEXT
+========================= */
+
+.productForm .input-help {
+  margin: -2px 0 0;
+
+  font-size: 13px;
+  color: #777;
+}
+
+
+/* =========================
+   IMAGE UPLOAD SECTION
+========================= */
+
+.productForm .file {
+  padding: 28px;
+}
+
+
+/* Image grid */
+
+.productForm .imgContainer {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 15px;
+}
+
+
+/* Individual uploader */
+
+.productForm .imageUploader {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+
+/* Upload box */
+
+.productForm .uploadIcon {
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 2px dashed rgba(117, 117, 117, 0.5);
+
+  border-radius: 14px;
+
+  background: #fff;
+
+  cursor: pointer;
+
+  overflow: hidden;
+
+  transition: 0.2s ease-in-out;
+}
+
+
+/* Upload hover */
+
+.productForm .uploadIcon:hover {
+  border-color: var(--accent-primary);
+
+  background: rgba(157, 255, 0, 0.08);
+
+  transform: translateY(-2px);
+}
+
+
+/* Add image icon */
+
+.productForm .uploadIcon .material-symbols-outlined {
+  font-size: 42px;
+
+  color: #777;
+
+  transition: 0.2s ease;
+}
+
+
+.productForm .uploadIcon:hover .material-symbols-outlined {
+  color: var(--accent-primary);
+
+  transform: scale(1.1);
+}
+
+
+/* =========================
+   IMAGE PREVIEW
+========================= */
+
+.productForm .previewImage {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.productForm form > .btn {
+  width: 100%;
+  height: 48px;
+
+  margin-top: 0;
+}
+
+
+/* Delete button */
+
+.productForm form > .btn:last-child {
+  background: #fff;
+  color: #d62828;
+
+  border: 2px solid #d62828;
+}
+
+.productForm form > .btn:last-child:hover {
+  background: #d62828;
+  color: #fff;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+  .productForm {
+    padding: 25px 12px;
+  }
+
+  .productForm .info h2 {
+    font-size: 25px;
+  }
+
+  .productForm .info h3 {
+    font-size: 14px;
+  }
+
+  .productForm .sub {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .productForm .one {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .productForm .imgContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media (max-width: 400px) {
+
+  .productForm .sub {
+    padding: 16px;
+  }
+
+  .productForm .basic {
+    font-size: 20px;
+  }
+
+  .productForm input,
+  .productForm select {
+    font-size: 15px;
+  }
+
+  .productForm .imgContainer {
+    gap: 10px;
+  }
+
+}

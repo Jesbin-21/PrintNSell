@@ -1,0 +1,113 @@
+.sell-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.sell-container form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  max-width: 440px;
+
+  background: rgb(250, 250, 250);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  border: 2px solid rgba(155, 154, 154, 0.418);
+  border-radius: 20px;
+
+  padding: 36px 32px 24px;
+  gap: 20px;
+
+  box-sizing: border-box;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* Inputs */
+.sell-container input {
+  height: 46px;
+  width: 100%;
+
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+
+  background: rgba(125, 224, 11, 0);
+
+  border: 2px solid rgba(117, 117, 117, 0.589);
+  border-radius: 10px;
+
+  padding: 0 16px;
+  outline: none;
+
+  box-sizing: border-box;
+  transition: 0.15s ease-in-out;
+}
+
+/* Input focus */
+.sell-container input:focus {
+  background: rgba(157, 255, 0, 0.459);
+  border-color: var(--accent-primary);
+
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+}
+
+/* Image preview */
+.sell-container .preImage {
+  width: 200px;
+  height: 200px;
+
+  object-fit: cover;
+
+  border-radius: 12px;
+  border: 2px solid rgba(117, 117, 117, 0.589);
+
+  margin-bottom: 5px;
+}
+
+/* File input */
+.sell-container input[type="file"] {
+  height: auto;
+  padding: 10px 12px;
+
+  font-size: 15px;
+  cursor: pointer;
+
+  background: #fff;
+}
+
+/* Submit button */
+.sell-container .btn {
+  width: 100%;
+  height: 46px;
+  margin-top: 8px;
+  color: black;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+  .sell-container {
+    padding: 20px 12px;
+  }
+
+  .sell-container form {
+    padding: 28px 20px 22px;
+  }
+
+  .sell-container input {
+    font-size: 16px;
+  }
+
+  .sell-container .preImage {
+    width: 160px;
+    height: 160px;
+  }
+}

@@ -1,0 +1,402 @@
+/* ==========================================
+   SELLER ORDERS PAGE
+========================================== */
+
+.seller-orders-page {
+  min-height: 100vh;
+  padding: 40px 6%;
+  background: #f6f7f9;
+  box-sizing: border-box;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.seller-orders-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 35px;
+}
+
+.seller-orders-header h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #171717;
+}
+
+.seller-orders-header p {
+  margin: 7px 0 0;
+  color: #777;
+  font-size: 15px;
+}
+
+
+/* ==========================================
+   ORDERS LIST
+========================================== */
+
+.seller-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+
+/* ==========================================
+   ORDER CARD
+========================================== */
+
+.seller-order-card {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+}
+
+
+/* ==========================================
+   ORDER HEADER
+========================================== */
+
+.seller-order-header {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr
+    1fr;
+
+  gap: 20px;
+
+  padding: 22px 25px;
+
+  background: #fafafa;
+
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.seller-order-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.seller-order-header span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 0.6px;
+}
+
+.seller-order-header strong {
+  font-size: 14px;
+  color: #222;
+}
+
+
+/* ==========================================
+   PRODUCT
+========================================== */
+
+.seller-order-product {
+  display: flex;
+  gap: 22px;
+  padding: 25px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.seller-order-product img {
+  width: 120px;
+  height: 120px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+
+  background: #f4f4f4;
+
+  flex-shrink: 0;
+}
+
+
+.seller-product-info {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+.seller-product-info h2 {
+  margin: 0 0 8px;
+
+  font-size: 19px;
+
+  font-weight: 650;
+
+  color: #171717;
+}
+
+.seller-product-info p {
+  margin: 3px 0;
+
+  font-size: 14px;
+
+  color: #666;
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.seller-status {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-top: 12px;
+}
+
+.seller-status > span {
+  font-size: 14px;
+  color: #555;
+}
+
+.status {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 5px 11px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  background: #f0f0f0;
+
+  color: #555;
+}
+
+
+/* ==========================================
+   STATUS COLORS
+========================================== */
+
+.status.placed {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.confirmed {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status.shipped {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.status.delivered {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status.cancelled {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+
+/* ==========================================
+   BUTTON AREA
+========================================== */
+
+.seller-product-info .button {
+  margin-top: 15px;
+}
+
+
+/* ==========================================
+   COMPLETED
+========================================== */
+
+.completed {
+  margin-top: 15px !important;
+
+  color: #15803d !important;
+
+  font-weight: 600;
+}
+
+
+/* ==========================================
+   CANCELLED
+========================================== */
+
+.cancelled {
+  margin-top: 15px !important;
+
+  color: #dc2626 !important;
+
+  font-weight: 600;
+}
+
+
+/* ==========================================
+   ADDRESS
+========================================== */
+
+.seller-order-address {
+  padding: 22px 25px;
+
+  background: #fafafa;
+}
+
+.seller-order-address h3 {
+  margin: 0 0 12px;
+
+  font-size: 15px;
+
+  color: #222;
+}
+
+.seller-order-address p {
+  margin: 4px 0;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+
+  color: #666;
+}
+
+
+/* ==========================================
+   NO ORDERS
+========================================== */
+
+.seller-no-orders {
+  min-height: 400px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+
+  background: white;
+
+  border-radius: 14px;
+
+  border: 1px solid #e5e5e5;
+}
+
+.seller-no-orders > div {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.seller-no-orders h2 {
+  margin: 5px 0;
+
+  font-size: 22px;
+
+  color: #222;
+}
+
+.seller-no-orders p {
+  margin: 5px 0;
+
+  color: #777;
+}
+
+
+/* ==========================================
+   LOADING
+========================================== */
+
+.seller-orders-loading {
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 18px;
+
+  color: #666;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 700px) {
+
+  .seller-orders-page {
+    padding: 25px 15px;
+  }
+
+
+  .seller-orders-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 18px;
+  }
+
+
+  .seller-orders-header h1 {
+    font-size: 27px;
+  }
+
+
+  .seller-order-header {
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+
+    padding: 18px;
+  }
+
+
+  .seller-order-product {
+    flex-direction: column;
+
+    padding: 20px;
+  }
+
+
+  .seller-order-product img {
+    width: 100%;
+    height: 200px;
+  }
+
+
+  .seller-order-address {
+    padding: 20px;
+  }
+
+}

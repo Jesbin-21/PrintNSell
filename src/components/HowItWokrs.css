@@ -1,0 +1,270 @@
+.how-section {
+  width: 100%;
+  background: #dfdf1500;
+  color: #111;
+  overflow: hidden;
+  font-family: monospace;
+  padding-top: 50px;
+  margin: auto;
+}
+
+.how-container {
+  max-width: 1250px;
+  margin: auto;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* ---------------- HEADING ---------------- */
+
+.how-heading {
+ width: 100%;
+  margin-bottom: 80px;
+  text-align: center;
+  background-color: #c7030300;
+}
+
+.how-label {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+  color: #000000;
+}
+
+.how-heading h2 {
+  margin: 0;
+  font-size: clamp(40px, 6vw, 70px);
+  line-height: 0.98;
+  letter-spacing: -4px;
+  font-weight: 700;
+}
+
+.how-heading h2 span {
+  color: #548b14;
+}
+
+.how-heading p {
+
+  margin-top: 30px;
+  font-size: 20px;
+  line-height: 1.7;
+  color: #000000;
+  text-align: center;
+}
+
+/* ---------------- STEPS ---------------- */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.step-card {
+  position: relative;
+  min-height: 310px;
+  padding: 32px;
+  border: 2px solid #a7a7a7af;
+  border-radius: 24px;
+  background: #ffffff;
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+}
+
+.step-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.step-number {
+  font-size: 13px;
+  font-weight: 700;
+  color: #999;
+}
+
+.step-icon {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+  background: #f1f1ed;
+
+  font-size: 24px;
+}
+
+.step-card h3 {
+  margin-top: 70px;
+  margin-bottom: 15px;
+
+  font-size: 27px;
+  letter-spacing: -1px;
+}
+
+.step-card p {
+  max-width: 290px;
+
+  font-size: 15px;
+  line-height: 1.7;
+
+  color: #777;
+}
+
+/* Arrow between cards */
+
+.step-arrow {
+  position: absolute;
+
+  right: -30px;
+  top: 50%;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: rgba(131, 252, 51, 0.623);
+  color: rgb(0, 0, 0);
+
+  font-size: 18px;
+
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+/* ---------------- BOTTOM CTA ---------------- */
+
+.how-bottom {
+  margin-top: 70px;
+  padding-top: 30px;
+
+  border-top: 1px solid #d8d8d3;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.how-bottom span {
+  font-size: 18px;
+  color: #666;
+}
+
+.how-bottom button {
+  border: none;
+  border-radius: 100px;
+
+  padding: 16px 22px;
+
+  background: #111;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  transition: transform 0.25s ease;
+}
+
+.how-bottom button:hover {
+  transform: translateY(-3px);
+}
+
+.how-bottom button span {
+  color: white;
+  font-size: 18px;
+}
+
+/* ---------------- MOBILE ---------------- */
+
+@media (max-width: 800px) {
+
+  .how-section {
+    padding: 60px 0 90px;
+  }
+
+  .how-heading {
+    margin-bottom: 50px;
+  }
+
+  .how-heading h2 {
+    letter-spacing: -1px;
+    font-size: clamp(30px, 8vw, 50px);
+  }
+
+  .how-heading p {
+    font-size: 16px;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .step-card {
+    min-height: 220px;
+  }
+
+  .step-card h3 {
+    margin-top: 40px;
+    font-size: 22px;
+  }
+
+  .step-arrow {
+    display: none;
+  }
+
+  .how-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .how-heading h2 {
+    letter-spacing: 0;
+    font-size: clamp(26px, 8vw, 40px);
+  }
+
+  .how-label {
+    font-size: 13px;
+  }
+
+  .how-heading p {
+    font-size: 14px;
+  }
+
+  .step-card {
+    padding: 20px;
+  }
+
+  .how-bottom button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.step-icon{
+  background: rgba(131, 252, 51, 0.623);
+}

@@ -1,0 +1,123 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #000000;
+  background: rgba(147, 248, 80, 0.89);
+  border: 2px solid rgb(80, 248, 1);
+  border-radius: 12px;
+  transition: all 0.2s ;
+  cursor: pointer;
+  height: 42px;
+  width: auto;
+  white-space: nowrap;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  border: 2px solid rgb(80, 248, 1);
+  background: rgb(252, 252, 252);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+.btn span {
+  display: inline-block;
+  line-height: 1;
+}
+
+.btn svg {
+  flex-shrink: 0;
+}
+
+/* Button Variants */
+
+
+
+
+
+.btn.buy:hover {
+  background: #059669;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 22px rgba(16, 185, 129, 0.45);
+}
+
+.btn.add {
+  background: var(--accent-primary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  color: #ffffff;
+}
+
+.btn.add:hover {
+  background: #4f46e5;
+  box-shadow: 0 8px 22px rgba(99, 102, 241, 0.45);
+}
+
+.btn.danger {
+  background: #f43f5e;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.3);
+  color: #ffffff;
+}
+
+.btn.danger:hover {
+  background: #e11d48;
+  box-shadow: 0 8px 22px rgba(244, 63, 94, 0.45);
+}
+
+.btn.checkout {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+  width: 100%;
+  font-size: 15px;
+  font-weight: 700;
+  height: 48px;
+  border-radius: 14px;
+}
+
+.btn.checkout:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
+}
+
+.btn.back-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-muted);
+  box-shadow: none;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 10px;
+}
+
+.btn.back-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.btn:disabled,
+.btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none !important;
+  transform: none !important;
+  filter: grayscale(0.5);
+}
+
+

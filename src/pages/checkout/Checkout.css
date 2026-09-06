@@ -1,0 +1,604 @@
+.checkout-page {
+  min-height: 100vh;
+  padding: 110px 30px 60px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.9fr);
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.checkout-title {
+  margin-bottom: 25px;
+}
+
+.checkout-title h1 {
+  margin: 0;
+
+  font-size: 32px;
+
+  letter-spacing: -0.7px;
+}
+
+.checkout-title p {
+  margin: 6px 0 0;
+  color: #777;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.checkout-section {
+  background: rgba(131, 252, 51, 0.623);
+    border: 2px solid rgba(74, 255, 2, 0.705);
+
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.02);
+}
+
+.checkout-section-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.checkout-section h2 {
+  margin: 0;
+
+  font-size: 24px;
+}
+
+.checkout-section-header p {
+  margin: 5px 0 0;
+
+  color: #000000be;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* =========================
+   ADD ADDRESS
+========================= */
+
+.add-new-address {
+  border: 1px solid #ddd;
+
+  background: rgb(0, 0, 0);
+  color: white;
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.add-new-address:hover {
+  background: #f4f4f4;
+  color: white;
+}
+
+/* =========================
+   ADDRESS
+========================= */
+
+.checkout-addresses {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.checkout-address {
+  display: flex;
+
+  gap: 15px;
+
+  padding: 18px;
+ 
+  border: 1px solid #e1e1e1;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.checkout-address:hover {
+  border-color: #bbb;
+}
+
+.checkout-address.selected {
+  border: 2px solid #111;
+  
+  background: #fafafa;
+}
+
+.address-radio {
+  padding-top: 2px;
+}
+
+.radio {
+  width: 19px;
+  height: 19px;
+
+  border: 2px solid #aaa;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-sizing: border-box;
+}
+
+.radio-active {
+  border-color: #111;
+}
+
+.radio-active div {
+  width: 9px;
+  height: 9px;
+
+  background: #111;
+
+  border-radius: 50%;
+}
+
+.address-content {
+  flex: 1;
+}
+
+.address-top {
+  display: flex;
+   
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 8px;
+}
+
+.address-top strong {
+  font-size: 20px;
+}
+
+.address-label,
+.default-label {
+  font-size: 14px;
+  font-weight: 700;
+  padding: 4px 7px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.address-label {
+  background: #eee;
+}
+
+.default-label {
+  background: #e8f7ed;
+
+  color: #10c24b;
+}
+
+.address-content p {
+  margin: 4px 0;
+
+  font-size: 15px;
+  color: #000000;
+}
+
+/* =========================
+   NO ADDRESS
+========================= */
+
+.no-address {
+  text-align: center;
+
+  padding: 40px 20px;
+
+  border: 1px dashed #d5d5d5;
+
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+.no-address-icon {
+  font-size: 35px;
+
+  margin-bottom: 10px;
+}
+
+.no-address h3 {
+  margin: 0 0 6px;
+}
+
+.no-address p {
+  color: #888;
+
+  font-size: 14px;
+}
+
+.no-address button {
+  margin-top: 10px;
+
+  border: none;
+
+  background: #111;
+
+  color: white;
+
+  padding: 11px 18px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+/* =========================
+   PAYMENT
+========================= */
+
+.payment-option {
+  margin-top: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 17px;
+
+  border: 1px solid #111;
+
+  border-radius: 11px;
+
+  background: #fafafa;
+}
+
+.payment-icon {
+  width: 40px;
+  height: 40px;
+
+  background: #eee;
+
+  border-radius: 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.payment-option p {
+  margin: 4px 0 0;
+
+  color: #888;
+
+  font-size: 13px;
+}
+
+/* =========================
+   RIGHT SUMMARY
+========================= */
+
+.checkout-right {
+  position: relative;
+}
+
+.order-summary {
+  background: white;
+
+  border: 1px solid #e8e8e8;
+
+  border-radius: 16px;
+
+  padding: 25px;
+
+  position: sticky;
+
+  top: 100px;
+
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+}
+
+.order-summary h2 {
+  margin: 0 0 22px;
+
+  font-size: 20px;
+}
+
+/* =========================
+   PRODUCTS
+========================= */
+
+.checkout-products {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 17px;
+
+  max-height: 330px;
+
+  overflow-y: auto;
+
+  padding-right: 5px;
+}
+
+.checkout-product {
+  display: flex;
+
+  gap: 12px;
+}
+
+.checkout-product img {
+  width: 65px;
+  height: 65px;
+
+  object-fit: cover;
+
+  border-radius: 9px;
+
+  border: 1px solid #eee;
+}
+
+.checkout-product-info {
+  flex: 1;
+}
+
+.checkout-product-info h3 {
+  margin: 0 0 5px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.checkout-product-info p {
+  margin: 0 0 4px;
+
+  color: #888;
+
+  font-size: 12px;
+}
+
+.checkout-product-info strong {
+  font-size: 14px;
+}
+
+/* =========================
+   PRICE
+========================= */
+
+.price-details {
+  border-top: 1px solid #eee;
+
+  margin-top: 20px;
+
+  padding-top: 18px;
+}
+
+.price-details div {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 12px;
+
+  font-size: 14px;
+
+  color: #666;
+}
+
+.free {
+  color: #16833b;
+
+  font-weight: 600;
+}
+
+/* =========================
+   TOTAL
+========================= */
+
+.total-row {
+  border-top: 1px solid #eee;
+
+  margin-top: 18px;
+
+  padding-top: 18px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  font-size: 20px;
+}
+
+/* =========================
+   PLACE ORDER
+========================= */
+
+.place-order {
+  width: 100%;
+
+  border: none;
+
+  background: #111;
+
+  color: white;
+
+  padding: 15px;
+
+  border-radius: 10px;
+
+  margin-top: 22px;
+
+  font-size: 15px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.place-order:hover:not(:disabled) {
+  background: #292929;
+
+  transform: translateY(-1px);
+}
+
+.place-order:disabled {
+  background: #ccc;
+
+  cursor: not-allowed;
+}
+
+/* =========================
+   SECURITY
+========================= */
+
+.secure-checkout {
+  text-align: center;
+  margin: 14px 0 0;
+  display: flex;
+  color: #020202;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.checkout-loading {
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 18px;
+
+  color: #777;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 850px) {
+  .checkout-page {
+    grid-template-columns: 1fr;
+
+    padding: 90px 18px 40px;
+  }
+
+  .order-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 550px) {
+  .checkout-section {
+    padding: 18px;
+  }
+
+  .checkout-section-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+  }
+
+  .add-new-address {
+    width: 100%;
+  }
+
+  .address-top {
+    flex-wrap: wrap;
+  }
+}
+
+.payment-description {
+  margin: 5px 0 18px;
+  color: hsla(0, 0%, 0%, 0.788);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.payment-option:hover {
+  border-color: #aaa;
+}
+
+.payment-option.selected {
+  border-color: #111;
+  background: #fafafa;
+}
+
+.payment-radio {
+  flex-shrink: 0;
+}
+
+.payment-icon {
+  font-size: 25px;
+}
+
+.payment-option strong {
+  display: block;
+  font-size: 18px;
+  color: #000000;
+}
+
+.payment-option p {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: #000000;
+}
