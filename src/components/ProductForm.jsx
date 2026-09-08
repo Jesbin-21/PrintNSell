@@ -23,6 +23,60 @@ function ProductForm({ reloadPage, editProduct }) {
   const [Price, setPrice] = useState("");
   const [Stock, setStock] = useState("");
 
+  const compressImage = (file) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      img.src = e.target.result;
+    };
+
+    img.onload = () => {
+      const maxWidth = 1200;
+      const maxHeight = 1200;
+
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxWidth || height > maxHeight) {
+        const ratio = Math.min(
+          maxWidth / width,
+          maxHeight / height
+        );
+
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob(
+        (blob) => {
+          const compressedFile = new File(
+            [blob],
+            file.name.replace(/\.[^/.]+$/, "") + ".webp",
+            {
+              type: "image/webp",
+            }
+          );
+
+          resolve(compressedFile);
+        },
+        "image/webp",
+        0.8
+      );
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+
   const handleImage = (e, index) => {
     const file = e.target.files[0];
 
