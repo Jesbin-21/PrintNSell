@@ -1,5 +1,5 @@
 import SellerLogin from "../components/sellerLogin";
-import sellerDashboard from "../components/SellerDashboard";
+import SellerDashboard from "../components/SellerDashboard";
 import { Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from "../components/Button";
@@ -64,7 +64,7 @@ function Seller() {
   return (
     <div className="sellerPage">
 
-      {isSeller ? <sellerDashboard /> : <SellerLogin />}
+      {isSeller ? <SellerDashboard /> : <SellerLogin />}
     </div>
   );
 }
