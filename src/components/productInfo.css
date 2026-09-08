@@ -473,6 +473,22 @@
     z-index: 1;
   }
 
+  .back {
+  display: flex;
+  width: 110%;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #14eb63de;
+  border-radius: var(--border-radius-lg);
+  margin-top: 16px;
+}
+
+  .back .btn.add {
+   font-size: 18px;
+   padding: 20px;
+}
+
 }
 
 

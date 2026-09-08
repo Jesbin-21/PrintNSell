@@ -46,9 +46,9 @@ function SellerLogin() {
     alert(data.message);
 
     if (data.success) {
-      localStorage.setItem("isSeller", "true");
-      window.location.reload();
-    }
+  localStorage.setItem("isSeller", "true");
+  navigate("/seller");
+}
   };
 
   return (
