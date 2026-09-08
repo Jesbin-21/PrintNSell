@@ -87,6 +87,33 @@ function SellerDashboard() {
       .catch((err) => console.log(err));
   }, []);
 
+
+  const reloadProducts = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) return;
+
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/products`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    setProducts(data || []);
+    setEditProduct(null);
+    setView("products");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+
   return (
     <div className="productContainer sellerDashboardContainer">
       {/* BANNER WITH SELLER INFO & SWITCH/ORDERS BUTTONS */}
@@ -209,7 +236,7 @@ function SellerDashboard() {
           </div>
 
           <ProductForm
-            reloadPage={() => window.location.reload()}
+            reloadPage={reloadProducts}
             editProduct={editProduct}
           />
         </div>
