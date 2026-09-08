@@ -19,7 +19,7 @@ function ProductCard({ product }) {
       <div className="latest-product-image">
         {product.images?.[0] ? (
           <img
-            src={`http://localhost:5000/${product.images[0]}`}
+            src={`${import.meta.env.VITE_API_URL}/${product.images[0]}`}
             alt={product.productName}
           />
         ) : (

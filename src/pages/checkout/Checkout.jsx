@@ -63,13 +63,13 @@ function Checkout() {
 
     try {
       const [cartRes, addressRes] = await Promise.all([
-        fetch("http://localhost:5000/cart", {
+        fetch(`${import.meta.env.VITE_API_URL}/cart`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }),
 
-        fetch("http://localhost:5000/addresses", {
+        fetch(`${import.meta.env.VITE_API_URL}/addresses`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -164,7 +164,7 @@ function Checkout() {
       setPlacingOrder(true);
 
       try {
-        const res = await fetch("http://localhost:5000/orders", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/orders`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -212,7 +212,7 @@ function Checkout() {
         }
 
         // Step B: Ask backend to create a Razorpay Test Order
-        const orderRes = await fetch("http://localhost:5000/payment/create-order", {
+        const orderRes = await fetch(`${import.meta.env.VITE_API_URL}/payment/create-order`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -252,7 +252,7 @@ function Checkout() {
           handler: async function (response) {
             try {
               // Step D: Send payment details to backend to verify signature & create order
-              const verifyRes = await fetch("http://localhost:5000/payment/verify", {
+              const verifyRes = await fetch(`${import.meta.env.VITE_API_URL}/payment/verify`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -488,7 +488,7 @@ function Checkout() {
                 <div className="checkout-product" key={item._id}>
                   {product.images?.[0] ? (
                     <img
-                      src={`http://localhost:5000/${product.images[0]}`}
+                      src={`${import.meta.env.VITE_API_URL}/${product.images[0]}`}
                       alt={product.productName}
                     />
                   ) : (

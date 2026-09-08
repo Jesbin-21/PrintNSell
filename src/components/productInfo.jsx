@@ -16,7 +16,7 @@ function ProductInfo() {
 
   useEffect(() => {
     // Fetch product details
-    fetch(`http://localhost:5000/product/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/product/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.product) {
@@ -29,7 +29,7 @@ function ProductInfo() {
       .catch((err) => console.error("Error fetching product:", err));
 
     // Fetch product reviews
-    fetch(`http://localhost:5000/reviews/product/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/reviews/product/${id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success && Array.isArray(data.reviews)) {
@@ -60,7 +60,7 @@ function ProductInfo() {
 
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/cart", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -204,7 +204,7 @@ function ProductInfo() {
         <div className="right">
           <div className="fullImage">
             <img
-              src={`http://localhost:5000/${selectedImage}`}
+              src={`${import.meta.env.VITE_API_URL}/${selectedImage}`}
               alt={product.productName}
             />
           </div>
@@ -212,7 +212,7 @@ function ProductInfo() {
             {product.images?.map((image, index) => (
               <div className="imageCard" key={index}>
                 <img
-                  src={`http://localhost:5000/${image}`}
+                  src={`${import.meta.env.VITE_API_URL}/${image}`}
                   onClick={() => setSelectedImage(image)}
                   width="300"
                   alt={`Product ${index + 1}`}

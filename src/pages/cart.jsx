@@ -17,7 +17,7 @@ function Cart() {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:5000/cart", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/cart`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +36,7 @@ function Cart() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch(`http://localhost:5000/cart/${cartId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/cart/${cartId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +106,7 @@ function Cart() {
               <div className="cart-card" key={item._id}>
                 <div className="cart-card-media">
                   <img
-                    src={`http://localhost:5000/${product.images?.[0]}`}
+                    src={`${import.meta.env.VITE_API_URL}/${product.images?.[0]}`}
                     alt={product.productName}
                     loading="lazy"
                   />

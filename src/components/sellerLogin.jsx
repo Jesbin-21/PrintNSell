@@ -33,7 +33,7 @@ function SellerLogin() {
     formData.append("location", location);
     formData.append("shopImage", image);
 
-    const res = await fetch("http://localhost:5000/seller", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/seller`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

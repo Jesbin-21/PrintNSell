@@ -1,5 +1,5 @@
 import SellerLogin from "../components/sellerLogin";
-import SellerDashboard from "../components/SellerDashboard";
+import sellerDashboard from "../components/SellerDashboard";
 import { Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Button from "../components/Button";
@@ -15,7 +15,7 @@ function Seller() {
       return;
     }
 
-    fetch("http://localhost:5000/seller", {
+    fetch(`${import.meta.env.VITE_API_URL}/seller`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

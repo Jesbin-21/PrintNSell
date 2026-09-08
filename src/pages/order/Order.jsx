@@ -32,10 +32,10 @@ function Orders() {
 
     try {
       const [ordersRes, reviewsRes] = await Promise.all([
-        fetch("http://localhost:5000/orders", {
+        fetch(`${import.meta.env.VITE_API_URL}/orders`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch("http://localhost:5000/reviews/user", {
+        fetch(`${import.meta.env.VITE_API_URL}/reviews/user`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -87,7 +87,7 @@ function Orders() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/orders/${orderId}/product/${productId}/cancel`,
+        `${import.meta.env.VITE_API_URL}/orders/${orderId}/product/${productId}/cancel`,
         {
           method: "PUT",
           headers: {
@@ -135,7 +135,7 @@ function Orders() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/orders/${orderId}/product/${productId}/deliver`,
+        `${import.meta.env.VITE_API_URL}/orders/${orderId}/product/${productId}/deliver`,
         {
           method: "PUT",
           headers: {
@@ -236,7 +236,7 @@ function Orders() {
     setSubmittingReviewKey(key);
 
     try {
-      const res = await fetch("http://localhost:5000/reviews", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -371,7 +371,7 @@ function Orders() {
                       {/* PRODUCT IMAGE */}
                       {item.productId?.images?.[0] ? (
                         <img
-                          src={`http://localhost:5000/${item.productId.images[0]}`}
+                          src={`${import.meta.env.VITE_API_URL}/${item.productId.images[0]}`}
                           alt={item.productId?.productName || "Product"}
                         />
                       ) : (

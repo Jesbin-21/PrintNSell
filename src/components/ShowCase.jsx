@@ -19,7 +19,7 @@ function ShowCase() {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/allProducts")
+    fetch(`${import.meta.env.VITE_API_URL}/allProducts`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -203,7 +203,7 @@ function ShowCase() {
                   <div className="card-image">
                     {product.images?.[0] ? (
                       <img
-                        src={`http://localhost:5000/${product.images[0]}`}
+                        src={`${import.meta.env.VITE_API_URL}/${product.images[0]}`}
                         alt={product.productName}
                       />
                     ) : (

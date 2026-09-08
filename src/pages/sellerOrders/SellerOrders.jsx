@@ -23,7 +23,7 @@ function SellerOrders() {
     try {
 
       const res = await fetch(
-        "http://localhost:5000/seller/orders",
+        `${import.meta.env.VITE_API_URL}/seller/orders`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ function SellerOrders() {
     try {
 
       const res = await fetch(
-        `http://localhost:5000/seller/orders/${orderId}/product/${productId}/status`,
+        `${import.meta.env.VITE_API_URL}/seller/orders/${orderId}/product/${productId}/status`,
         {
           method: "PUT",
 
@@ -251,7 +251,7 @@ function SellerOrders() {
                     <img
                       src={
                         item.productId?.images?.[0]
-                          ? `http://localhost:5000/${item.productId.images[0]}`
+                          ? `${import.meta.env.VITE_API_URL}/${item.productId.images[0]}`
                           : ""
                       }
                       alt={

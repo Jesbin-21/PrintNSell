@@ -31,7 +31,7 @@ async function getProfile() {
   const token = localStorage.getItem("token");
 
   try {
-    const res = await fetch("http://localhost:5000/profile", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/profile`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -53,7 +53,7 @@ async function getProfile() {
     const token = localStorage.getItem("token");
 
     try {
-      const res = await fetch("http://localhost:5000/addresses", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/addresses`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -115,8 +115,8 @@ async function getProfile() {
 
     try {
       const url = editingId
-        ? `http://localhost:5000/addresses/${editingId}`
-        : "http://localhost:5000/addresses";
+        ? `${import.meta.env.VITE_API_URL}/addresses/${editingId}`
+        : `${import.meta.env.VITE_API_URL}/addresses`;
 
       const method = editingId ? "PUT" : "POST";
 
@@ -162,7 +162,7 @@ async function getProfile() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/addresses/${id}`,
+        `${import.meta.env.VITE_API_URL}/addresses/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -188,7 +188,7 @@ async function getProfile() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/addresses/${id}/default`,
+        `${import.meta.env.VITE_API_URL}/addresses/${id}/default`,
         {
           method: "PUT",
           headers: {

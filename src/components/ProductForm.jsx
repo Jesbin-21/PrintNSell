@@ -117,7 +117,7 @@ function ProductForm({ reloadPage, editProduct }) {
     let res;
 
     if (editProduct) {
-      res = await fetch(`http://localhost:5000/product/${editProduct._id}`, {
+      res = await fetch(`${import.meta.env.VITE_API_URL}/product/${editProduct._id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -125,7 +125,7 @@ function ProductForm({ reloadPage, editProduct }) {
         body: formData,
       });
     } else {
-      res = await fetch("http://localhost:5000/productForm", {
+      res = await fetch(`${import.meta.env.VITE_API_URL}/productForm`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -347,7 +347,7 @@ function ProductForm({ reloadPage, editProduct }) {
                     <img
                       src={
                         typeof image === "string"
-                          ? `http://localhost:5000/${image}`
+                          ? `${import.meta.env.VITE_API_URL}/${image}`
                           : URL.createObjectURL(image)
                       }
                       className="previewImage"

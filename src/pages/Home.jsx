@@ -43,7 +43,7 @@ function Home() {
 
 
    useEffect(() => {
-    fetch("http://localhost:5000/allproducts")
+    fetch(`${import.meta.env.VITE_API_URL}/allproducts`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

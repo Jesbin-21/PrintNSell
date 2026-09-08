@@ -21,7 +21,7 @@ function SellerDashboard() {
     const token = localStorage.getItem("token");
 
     const res = await fetch(
-      `http://localhost:5000/product/${id}`,
+      `${import.meta.env.VITE_API_URL}/product/${id}`,
       {
         method: "DELETE",
         headers: {
@@ -52,7 +52,7 @@ function SellerDashboard() {
       return;
     }
 
-    fetch("http://localhost:5000/seller", {
+    fetch(`${import.meta.env.VITE_API_URL}/seller`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -74,7 +74,7 @@ function SellerDashboard() {
       return;
     }
 
-    fetch("http://localhost:5000/products", {
+    fetch(`${import.meta.env.VITE_API_URL}/products`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -93,7 +93,7 @@ function SellerDashboard() {
       <div className="banner">
         <div className="image">
           <img
-            src={seller.Image ? `http://localhost:5000/${seller.Image}` : "/default-avatar.png"}
+            src={seller.Image ? `${import.meta.env.VITE_API_URL}/${seller.Image}` : "/default-avatar.png"}
             alt={seller.shopName || "Seller"}
           />
         </div>
@@ -148,7 +148,7 @@ function SellerDashboard() {
                     <img
                       src={
                         product.images && product.images[0]
-                          ? `http://localhost:5000/${product.images[0]}`
+                          ? `${import.meta.env.VITE_API_URL}/${product.images[0]}`
                           : "/placeholder.png"
                       }
                       alt={product.productName}
