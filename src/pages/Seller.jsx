@@ -64,7 +64,7 @@ function Seller() {
   return (
     <div className="sellerPage">
 
-      {isSeller ? <SellerDashboard /> : <SellerLogin />}
+      {isSeller ? <sellerDashboard /> : <SellerLogin />}
     </div>
   );
 }
