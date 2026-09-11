@@ -1,5 +1,4 @@
 import express from "express";
-import fs from "fs";
 import { protect } from "../middleware/auth.js";
 import { upload } from "../middleware/upload.js";
 import Product from "../models/Product.js";
@@ -19,8 +18,8 @@ router.post(
   async (req, res, next) => {
     try {
       const imagePaths = req.files
-        ? req.files.map((file) => file.path.replace(/\\/g, "/"))
-        : [];
+  ? req.files.map((file) => file.path)
+  : [];
 
       const {
         productName,
@@ -176,8 +175,7 @@ router.put(
         req.files.forEach((file, i) => {
           const targetIndex = Number(imageIndexes[i]);
           if (!isNaN(targetIndex) && targetIndex >= 0 && targetIndex < 6) {
-            updatedImages[targetIndex] = file.path.replace(/\\/g, "/");
-          }
+updatedImages[targetIndex] = file.path;          }
         });
       }
 
@@ -236,15 +234,7 @@ router.delete("/product/:id", protect, async (req, res, next) => {
     }
 
     // Delete uploaded image files from disk safely
-    if (Array.isArray(product.images)) {
-      product.images.forEach((imgPath) => {
-        if (imgPath && fs.existsSync(imgPath)) {
-          fs.unlink(imgPath, (err) => {
-            if (err) console.error(`Failed to delete file ${imgPath}:`, err);
-          });
-        }
-      });
-    }
+    
 
     await Product.findByIdAndDelete(id);
 
