@@ -315,6 +315,8 @@ function SellerDashboard() {
             editProduct={editProduct}
           />
         </div>
+      )}
+
       {/* ================= SHOP EDIT MODAL ================= */}
       {showShopEdit && (
         <div className="sellerModalOverlay">
