@@ -1,20 +1,13 @@
-
 import SellerLogin from "../components/sellerLogin";
 import SellerDashboard from "../components/SellerDashboard";
 import { Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Button from "../components/Button";
 
 function Seller() {
   const token = localStorage.getItem("token");
-  const savedSellerStatus = localStorage.getItem("isSeller");
-
-  const [isSeller, setIsSeller] = useState(
-    savedSellerStatus === "true"
-  );
-
-  const [loading, setLoading] = useState(
-    !savedSellerStatus
-  );
+  const [isSeller, setIsSeller] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!token) {
@@ -39,12 +32,14 @@ function Seller() {
       })
       .catch((err) => {
         console.error("Error verifying seller status:", err);
+        setIsSeller(false);
       })
       .finally(() => {
         setLoading(false);
       });
   }, [token]);
 
+  // User is not logged in
   if (!token) {
     return <Navigate to="/login" replace />;
   }
@@ -68,10 +63,10 @@ function Seller() {
 
   return (
     <div className="sellerPage">
+
       {isSeller ? <SellerDashboard /> : <SellerLogin />}
     </div>
   );
 }
 
-
-
+export default Seller;
