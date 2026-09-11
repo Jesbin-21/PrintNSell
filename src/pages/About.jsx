@@ -1,45 +1,8 @@
 import "./About.css";
-import { useNavigate } from "react-router-dom";
 
-const stats = [
-  { number: "500+", label: "Sellers" },
-  { number: "10K+", label: "Products" },
-  { number: "50K+", label: "Happy Buyers" },
-  { number: "100%", label: "Handmade & Printed" },
-];
-
-const values = [
-  {
-    icon: "🖨️",
-    title: "Precision Printing",
-    desc: "Every product is crafted with high-quality 3D printing technology, ensuring detail, durability, and perfection in every layer.",
-  },
-  {
-    icon: "🤝",
-    title: "Seller Community",
-    desc: "We empower makers, creators, and engineers to sell their 3D-printed creations to a global audience — no middlemen.",
-  },
-  {
-    icon: "🌱",
-    title: "Sustainable Crafting",
-    desc: "Our sellers use eco-conscious materials and on-demand production to reduce waste and leave a lighter footprint.",
-  },
-  {
-    icon: "🔒",
-    title: "Secure & Trusted",
-    desc: "Shop with confidence. Every transaction is protected, and every seller is verified to guarantee quality.",
-  },
-];
-
-const team = [
-  { name: "Arjun Mehta", role: "Founder & CEO", emoji: "👨‍💻" },
-  { name: "Priya Nair", role: "Head of Design", emoji: "🎨" },
-  { name: "Rohit Das", role: "Lead Engineer", emoji: "⚙️" },
-  { name: "Sneha Pillai", role: "Community Manager", emoji: "🌟" },
-];
 
 function About() {
-  const navigate = useNavigate();
+ 
 
   return (
     <div className="about-page">
