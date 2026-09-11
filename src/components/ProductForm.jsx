@@ -24,58 +24,58 @@ function ProductForm({ reloadPage, editProduct }) {
   const [Stock, setStock] = useState("");
 
   const compressImage = (file) => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    const reader = new FileReader();
+    return new Promise((resolve) => {
+      const img = new Image();
+      const reader = new FileReader();
 
-    reader.onload = (e) => {
-      img.src = e.target.result;
-    };
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
 
-    img.onload = () => {
-      const maxWidth = 1200;
-      const maxHeight = 1200;
+      img.onload = () => {
+        const maxWidth = 1200;
+        const maxHeight = 1200;
 
-      let width = img.width;
-      let height = img.height;
+        let width = img.width;
+        let height = img.height;
 
-      if (width > maxWidth || height > maxHeight) {
-        const ratio = Math.min(
-          maxWidth / width,
-          maxHeight / height
-        );
-
-        width = Math.round(width * ratio);
-        height = Math.round(height * ratio);
-      }
-
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0, width, height);
-
-      canvas.toBlob(
-        (blob) => {
-          const compressedFile = new File(
-            [blob],
-            file.name.replace(/\.[^/.]+$/, "") + ".webp",
-            {
-              type: "image/webp",
-            }
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(
+            maxWidth / width,
+            maxHeight / height
           );
 
-          resolve(compressedFile);
-        },
-        "image/webp",
-        0.8
-      );
-    };
+          width = Math.round(width * ratio);
+          height = Math.round(height * ratio);
+        }
 
-    reader.readAsDataURL(file);
-  });
-};
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            const compressedFile = new File(
+              [blob],
+              file.name.replace(/\.[^/.]+$/, "") + ".webp",
+              {
+                type: "image/webp",
+              }
+            );
+
+            resolve(compressedFile);
+          },
+          "image/webp",
+          0.8
+        );
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
 
   const handleImage = (e, index) => {
     const file = e.target.files[0];
@@ -135,84 +135,84 @@ function ProductForm({ reloadPage, editProduct }) {
     window.location.reload();
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  console.log("Submit clicked");
+    console.log("Submit clicked");
 
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  if (!token) {
-    alert("Please login first");
-    navigate("/login");
-    return;
-  }
+    if (!token) {
+      alert("Please login first");
+      navigate("/login");
+      return;
+    }
 
-  try {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    formData.append("productName", productName);
-    formData.append("Description", Description);
-    formData.append("Category", Category);
-    formData.append("Material", Material);
-    formData.append("Length", Length);
-    formData.append("Width", Width);
-    formData.append("Height", Height);
-    formData.append("SizeUnit", SizeUnit);
-    formData.append("weight", weight);
-    formData.append("Surface", Surface);
-    formData.append("WeightUnit", WeightUnit);
-    formData.append("Price", Price);
-    formData.append("Stock", Stock);
+      formData.append("productName", productName);
+      formData.append("Description", Description);
+      formData.append("Category", Category);
+      formData.append("Material", Material);
+      formData.append("Length", Length);
+      formData.append("Width", Width);
+      formData.append("Height", Height);
+      formData.append("SizeUnit", SizeUnit);
+      formData.append("weight", weight);
+      formData.append("Surface", Surface);
+      formData.append("WeightUnit", WeightUnit);
+      formData.append("Price", Price);
+      formData.append("Stock", Stock);
 
-    // Compress and add only changed images
-    for (const index of changedIndexes) {
-      const image = images[index];
+      // Compress and add only changed images
+      for (const index of changedIndexes) {
+        const image = images[index];
 
-      if (image instanceof File) {
-        const compressedImage = await compressImage(image);
+        if (image instanceof File) {
+          const compressedImage = await compressImage(image);
 
-        formData.append("images", compressedImage);
-        formData.append("indexes", index);
+          formData.append("images", compressedImage);
+          formData.append("indexes", index);
+        }
       }
+
+      let url;
+      let method;
+
+      if (editProduct) {
+        url = `${import.meta.env.VITE_API_URL}/product/${editProduct._id}`;
+        method = "PUT";
+      } else {
+        url = `${import.meta.env.VITE_API_URL}/productForm`;
+        method = "POST";
+      }
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to save product");
+      }
+
+      if (data.success) {
+        alert("Product added successfully!");
+        reloadPage();
+      } else {
+        alert(data.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Product submit error:", error);
+      alert(error.message || "Failed to add product");
     }
-
-    let url;
-    let method;
-
-    if (editProduct) {
-      url = `${import.meta.env.VITE_API_URL}/product/${editProduct._id}`;
-      method = "PUT";
-    } else {
-      url = `${import.meta.env.VITE_API_URL}/productForm`;
-      method = "POST";
-    }
-
-    const res = await fetch(url, {
-      method,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to save product");
-    }
-
-    if (data.success) {
-      alert("Product added successfully!");
-      reloadPage();
-    } else {
-      alert(data.message || "Something went wrong");
-    }
-  } catch (error) {
-    console.error("Product submit error:", error);
-    alert(error.message || "Failed to add product");
-  }
-};
+  };
 
 
 
@@ -369,41 +369,41 @@ const handleSubmit = async (e) => {
         </div>
 
         <div className="sub">
-  <h2 className="basic">💲Price & Stock</h2>
+          <h2 className="basic">💲Price & Stock</h2>
 
-  <div className="inputField">
-    <h1>Price</h1>
+          <div className="inputField">
+            <h1>Price</h1>
 
-    <input
-      type="number"
-      min="0"
-      placeholder="e.g. 799"
-      value={Price}
-      onChange={(e) => setPrice(e.target.value)}
-      required
-    />
-  </div>
+            <input
+              type="number"
+              min="0"
+              placeholder="e.g. 799"
+              value={Price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </div>
 
-  <div className="inputField">
-    <h1>Stock</h1>
+          <div className="inputField">
+            <h1>Stock</h1>
 
-    <input
-      type="number"
-      min="0"
-      placeholder="e.g. 10"
-      value={Stock}
-      onChange={(e) => setStock(e.target.value)}
-      required
-    />
+            <input
+              type="number"
+              min="0"
+              placeholder="e.g. 10"
+              value={Stock}
+              onChange={(e) => setStock(e.target.value)}
+              required
+            />
 
-    <p className="input-help">
-      Number of units available for sale
-    </p>
-  </div>
-</div>
+            <p className="input-help">
+              Number of units available for sale
+            </p>
+          </div>
+        </div>
 
 
-        
+
         <div className="sub file">
           <div className="imgContainer">
             {images.map((image, index) => (
@@ -417,21 +417,26 @@ const handleSubmit = async (e) => {
                 />
 
                 <label htmlFor={`imageUpload${index}`} className="uploadIcon">
+
                   {image ? (
                     <img
                       src={
                         typeof image === "string"
-                          ? `${import.meta.env.VITE_API_URL}/${image}`
+                          ? image.startsWith("http")
+                            ? image
+                            : `${import.meta.env.VITE_API_URL}/${image}`
                           : URL.createObjectURL(image)
                       }
                       className="previewImage"
-                      alt=""
+                      alt={`Product image ${index + 1}`}
                     />
                   ) : (
                     <span className="material-symbols-outlined">
                       add_photo_alternate
                     </span>
                   )}
+
+
                 </label>
               </div>
             ))}
