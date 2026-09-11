@@ -1,67 +1,74 @@
-.about-about {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 40px auto;
-  gap: 28px;
-  max-width: 900px;
-  width: 100%;
-  background: rgb(10, 77, 235);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 28px;
-  box-sizing: border-box;
-  padding: 60px 40px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+.aboutPage {
+  min-height: 100vh;
+  padding: 60px 20px;
+  background: #f5f7f6;
+}
+
+.aboutContainer {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.aboutContainer h1 {
+  margin-bottom: 20px;
+  font-size: 36px;
+  color: #222;
   text-align: center;
 }
 
-.about-about .one {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #7705e9;
-  background: rgba(168, 85, 247, 0.1);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  border-radius: 99px;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
-}
-
-.about-about .two {
-  font-family: var(--font-heading);
-  font-size: 44px;
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  max-width: 720px;
-}
-
-.about-about .three {
+.aboutIntro {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  text-align: center;
   font-size: 18px;
   line-height: 1.7;
-  color: var(--text-muted);
-  max-width: 680px;
+  color: #666;
 }
 
-@media (max-width: 768px) {
-  .about-about {
-    padding: 36px 20px;
-    margin: 20px auto;
+.aboutSection {
+  margin-top: 30px;
+  padding: 25px;
+  border-radius: 14px;
+  background: #f8faf9;
+}
+
+.aboutSection h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+  color: #222;
+}
+
+.aboutSection p {
+  margin: 0;
+  color: #666;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .aboutPage {
+    padding: 30px 15px;
   }
-  .about-about .two {
-    font-size: 30px;
+
+  .aboutContainer {
+    padding: 25px 18px;
   }
-  .about-about .three {
+
+  .aboutContainer h1 {
+    font-size: 28px;
+  }
+
+  .aboutIntro {
     font-size: 16px;
+  }
+
+  .aboutSection {
+    padding: 20px;
   }
 }
 
