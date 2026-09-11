@@ -1,17 +1,19 @@
+
 import SellerLogin from "../components/sellerLogin";
 import SellerDashboard from "../components/SellerDashboard";
 import { Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Button from "../components/Button";
 
 function Seller() {
   const token = localStorage.getItem("token");
-  const [isSeller, setIsSeller] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const savedSeller = localStorage.getItem("isSeller");
+
+  const [isSeller, setIsSeller] = useState(savedSeller === "true");
+  const [checking, setChecking] = useState(!savedSeller);
 
   useEffect(() => {
     if (!token) {
-      setLoading(false);
+      setChecking(false);
       return;
     }
 
@@ -20,50 +22,45 @@ function Seller() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data._id) {
-          setIsSeller(true);
-          localStorage.setItem("isSeller", "true");
-        } else {
-          setIsSeller(false);
-          localStorage.setItem("isSeller", "false");
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to check seller");
         }
+
+        return response.json();
       })
-      .catch((err) => {
-        console.error("Error verifying seller status:", err);
-        setIsSeller(false);
+      .then((data) => {
+        const sellerExists = Boolean(data && data._id);
+
+        setIsSeller(sellerExists);
+
+        localStorage.setItem(
+          "isSeller",
+          sellerExists ? "true" : "false"
+        );
+      })
+      .catch((error) => {
+        console.error("Seller check error:", error);
       })
       .finally(() => {
-        setLoading(false);
+        setChecking(false);
       });
   }, [token]);
 
-  // User is not logged in
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  if (loading) {
+  if (checking) {
     return (
-      <div
-        className="sellerPage"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "60vh",
-          color: "#ffffff",
-        }}
-      >
-        <h2>Loading seller details...</h2>
+      <div className="sellerPage">
+        <h2>Loading...</h2>
       </div>
     );
   }
 
   return (
     <div className="sellerPage">
-
       {isSeller ? <SellerDashboard /> : <SellerLogin />}
     </div>
   );
