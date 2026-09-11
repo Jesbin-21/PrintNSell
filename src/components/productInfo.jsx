@@ -203,20 +203,28 @@ function ProductInfo() {
 
         <div className="right">
           <div className="fullImage">
-            <img
-              src={`${import.meta.env.VITE_API_URL}/${selectedImage}`}
-              alt={product.productName}
-            />
+           <img
+  src={
+    selectedImage?.startsWith("http")
+      ? selectedImage
+      : `${import.meta.env.VITE_API_URL}/${selectedImage}`
+  }
+  alt={product.productName}
+/>
           </div>
           <div className="image-gallery">
             {product.images?.map((image, index) => (
               <div className="imageCard" key={index}>
                 <img
-                  src={`${import.meta.env.VITE_API_URL}/${image}`}
-                  onClick={() => setSelectedImage(image)}
-                  width="300"
-                  alt={`Product ${index + 1}`}
-                />
+  src={
+    image.startsWith("http")
+      ? image
+      : `${import.meta.env.VITE_API_URL}/${image}`
+  }
+  onClick={() => setSelectedImage(image)}
+  width="300"
+  alt={`Product ${index + 1}`}
+/>
               </div>
             ))}
           </div>
