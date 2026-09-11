@@ -41,8 +41,8 @@ router.post(
       };
 
       if (req.file) {
-        updateData.Image = req.file.path.replace(/\\/g, "/");
-      }
+  updateData.Image = req.file.path;
+}
 
       const seller = await Seller.findOneAndUpdate(
         { userId: req.user.userId },
