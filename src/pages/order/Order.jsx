@@ -368,15 +368,22 @@ function Orders() {
 
                   return (
                     <div className="order-product" key={item._id}>
-                      {/* PRODUCT IMAGE */}
-                      {item.productId?.images?.[0] ? (
-                        <img
-                          src={`${import.meta.env.VITE_API_URL}/${item.productId.images[0]}`}
-                          alt={item.productId?.productName || "Product"}
-                        />
-                      ) : (
-                        <div className="no-product-image">No Image</div>
-                      )}
+                      
+{/* PRODUCT IMAGE */}
+{item.productId?.images?.[0] ? (
+  <img
+    src={
+      item.productId.images[0].startsWith("http")
+        ? item.productId.images[0]
+        : `${import.meta.env.VITE_API_URL}/${item.productId.images[0]}`
+    }
+    alt={item.productId?.productName || "Product"}
+    loading="lazy"
+  />
+) : (
+  <div className="no-product-image">No Image</div>
+)}
+
 
                       {/* PRODUCT INFO */}
                       <div className="order-product-info">

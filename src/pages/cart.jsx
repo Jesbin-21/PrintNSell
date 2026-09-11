@@ -105,11 +105,20 @@ function Cart() {
             return (
               <div className="cart-card" key={item._id}>
                 <div className="cart-card-media">
-                  <img
-                    src={`${import.meta.env.VITE_API_URL}/${product.images?.[0]}`}
-                    alt={product.productName}
-                    loading="lazy"
-                  />
+                  
+<img
+  src={
+    product.images?.[0]
+      ? product.images[0].startsWith("http")
+        ? product.images[0]
+        : `${import.meta.env.VITE_API_URL}/${product.images[0]}`
+      : "/placeholder.png"
+  }
+  alt={product.productName}
+  loading="lazy"
+/>
+
+
                 </div>
 
                 <div className="cart-info">
