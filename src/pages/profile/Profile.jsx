@@ -9,22 +9,30 @@ function Profile() {
   const navigate = useNavigate();
 
 const [addresses, setAddresses] = useState([]);
-const [user, setUser] = useState(null);  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+const [user, setUser] = useState(null);
+const [showForm, setShowForm] = useState(false);
+const [editingId, setEditingId] = useState(null);
 
-  const [address, setAddress] = useState({
-    name: "",
-    phone: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-    type: "Home",
-  });
+const [seller, setSeller] = useState(null);
+const [showSellerForm, setShowSellerForm] = useState(false);
+const [sellerData, setSellerData] = useState({ name: "", shopName: "", location: "" });
+const [sellerImage, setSellerImage] = useState(null);
+const [sellerPreview, setSellerPreview] = useState("");
+
+const [address, setAddress] = useState({
+  name: "",
+  phone: "",
+  address: "",
+  city: "",
+  state: "",
+  pincode: "",
+  type: "Home",
+});
 
 useEffect(() => {
   getProfile();
   getAddresses();
+  getSellerProfile();
 }, []);
 
 async function getProfile() {
@@ -66,6 +74,116 @@ async function getProfile() {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function getSellerProfile() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/seller`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data && data._id) {
+        setSeller(data);
+      } else {
+        setSeller(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function openEditSellerForm() {
+    if (!seller) return;
+    setSellerData({
+      name: seller.name || "",
+      shopName: seller.shopName || "",
+      location: seller.location || "",
+    });
+    setSellerImage(null);
+    setSellerPreview(
+      seller.Image
+        ? seller.Image.startsWith("http")
+          ? seller.Image
+          : `${import.meta.env.VITE_API_URL}/${seller.Image}`
+        : ""
+    );
+    setShowSellerForm(true);
+  }
+
+  async function saveSellerProfile(e) {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    try {
+      const formData = new FormData();
+      formData.append("name", sellerData.name);
+      formData.append("shopName", sellerData.shopName);
+      formData.append("location", sellerData.location);
+      if (sellerImage) {
+        formData.append("shopImage", sellerImage);
+      }
+
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/seller`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert("Seller shop profile updated successfully");
+        setShowSellerForm(false);
+        getSellerProfile();
+      } else {
+        alert(data.message || "Failed to update seller profile");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
+    }
+  }
+
+  async function deleteSellerProfile() {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your seller shop profile? This action cannot be undone."
+    );
+
+    if (!confirmDelete) return;
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/seller`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        alert(data.message);
+        setSeller(null);
+        setShowSellerForm(false);
+        localStorage.setItem("isSeller", "false");
+      } else {
+        alert(data.message || "Failed to delete seller profile");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong");
     }
   }
 
@@ -249,8 +367,6 @@ async function getProfile() {
 
         <div className="account-info">
 
-
-
 <div>
   <span>Email</span>
   <strong>{user?.email || "Loading..."}</strong>
@@ -258,8 +374,142 @@ async function getProfile() {
 
         </div>
 
-
       </div>
+
+
+      {/* SELLER SHOP PROFILE */}
+
+      {seller && seller._id && (
+        <div className="profile-section seller-profile-section">
+          <div className="section-header">
+            <h2>Seller Shop Profile</h2>
+            <div className="seller-profile-actions">
+              <Button
+                text="Edit Shop"
+                onClick={openEditSellerForm}
+              />
+              <Button
+                text="Delete Shop"
+                variant="danger"
+                onClick={deleteSellerProfile}
+              />
+            </div>
+          </div>
+
+          {!showSellerForm ? (
+            <div className="seller-shop-card">
+              <div className="seller-shop-avatar">
+                <img
+                  src={
+                    seller.Image
+                      ? seller.Image.startsWith("http")
+                        ? seller.Image
+                        : `${import.meta.env.VITE_API_URL}/${seller.Image}`
+                      : "/default-avatar.png"
+                  }
+                  alt={seller.shopName}
+                />
+              </div>
+              <div className="seller-shop-details">
+                <div>
+                  <span>Shop Name</span>
+                  <strong>{seller.shopName}</strong>
+                </div>
+                <div>
+                  <span>Seller Name</span>
+                  <strong>{seller.name}</strong>
+                </div>
+                <div>
+                  <span>Location</span>
+                  <strong>{seller.location}</strong>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <form className="address-form seller-edit-form" onSubmit={saveSellerProfile}>
+              <h3>Edit Seller Shop Profile</h3>
+
+              <div className="seller-form-group">
+                <label>Seller Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Seller Name"
+                  value={sellerData.name}
+                  onChange={(e) =>
+                    setSellerData({ ...sellerData, name: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="seller-form-group">
+                <label>Shop Name</label>
+                <input
+                  type="text"
+                  name="shopName"
+                  placeholder="Shop Name"
+                  value={sellerData.shopName}
+                  onChange={(e) =>
+                    setSellerData({ ...sellerData, shopName: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="seller-form-group">
+                <label>Location</label>
+                <input
+                  type="text"
+                  name="location"
+                  placeholder="Location"
+                  value={sellerData.location}
+                  onChange={(e) =>
+                    setSellerData({ ...sellerData, location: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="seller-form-group">
+                <label>Shop Image</label>
+                {sellerPreview && (
+                  <div className="seller-preview-wrapper">
+                    <img
+                      src={sellerPreview}
+                      alt="Shop Preview"
+                    />
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setSellerImage(file);
+                      setSellerPreview(URL.createObjectURL(file));
+                    }
+                  }}
+                />
+              </div>
+
+              <div className="form-buttons">
+                <button type="submit" className="save-btn">
+                  Save Shop Changes
+                </button>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setShowSellerForm(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      )}
 
 
       {/* ADDRESSES */}

@@ -80,4 +80,27 @@ router.get("/seller", protect, async (req, res, next) => {
   }
 });
 
+// DELETE SELLER PROFILE
+router.delete("/seller", protect, async (req, res, next) => {
+  try {
+    const seller = await Seller.findOneAndDelete({
+      userId: req.user.userId,
+    });
+
+    if (!seller) {
+      return res.status(404).json({
+        success: false,
+        message: "Seller profile not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Seller shop profile deleted successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 export default router;

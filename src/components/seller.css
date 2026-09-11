@@ -148,7 +148,7 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--seller-text-muted);
-  margin: 4px 0 0 0;
+  margin: 0;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -157,6 +157,19 @@
 .banner .about p::before {
   content: "🏪";
   font-size: 13px;
+}
+
+.shopNameHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.shopNameHeader .btn {
+  padding: 3px 10px;
+  font-size: 12px;
+  height: auto;
 }
 
 .neworders,
@@ -776,4 +789,96 @@
 
 .mobileViewButton {
   display: none;
+}
+
+/* ==========================================================================
+   SELLER SHOP EDIT MODAL
+   ========================================================================== */
+
+.sellerModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.sellerModalContent {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  padding: 28px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: modalSlideUp 0.25s ease-out;
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sellerModalContent h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.sellerModalContent form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sellerModalContent input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.sellerModalContent input[type="text"]:focus {
+  border-color: #10b981;
+  outline: none;
+}
+
+.modalShopImagePreview {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  border: 2px dashed #10b981;
+}
+
+.modalShopImagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
