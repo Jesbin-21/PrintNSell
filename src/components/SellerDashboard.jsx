@@ -120,9 +120,15 @@ function SellerDashboard() {
       <div className="banner">
         <div className="image">
           <img
-            src={seller.Image ? `${import.meta.env.VITE_API_URL}/${seller.Image}` : "/default-avatar.png"}
-            alt={seller.shopName || "Seller"}
-          />
+  src={
+    seller.Image
+      ? seller.Image.startsWith("http")
+        ? seller.Image
+        : `${import.meta.env.VITE_API_URL}/${seller.Image}`
+      : "/default-avatar.png"
+  }
+  alt={seller.shopName || "Seller"}
+/>
         </div>
 
         <div className="about">
@@ -172,14 +178,16 @@ function SellerDashboard() {
                 <div className="card" key={product._id}>
                   {/* PRODUCT IMAGE */}
                   <div className="cardImage">
-                    <img
-                      src={
-                        product.images && product.images[0]
-                          ? `${import.meta.env.VITE_API_URL}/${product.images[0]}`
-                          : "/placeholder.png"
-                      }
-                      alt={product.productName}
-                    />
+<img
+  src={
+    product.images?.[0]
+      ? product.images[0].startsWith("http")
+        ? product.images[0]
+        : `${import.meta.env.VITE_API_URL}/${product.images[0]}`
+      : "/placeholder.png"
+  }
+  alt={product.productName}
+/>
                   </div>
 
                   {/* PRODUCT INFO */}
