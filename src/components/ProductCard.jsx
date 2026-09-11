@@ -19,9 +19,13 @@ function ProductCard({ product }) {
       <div className="latest-product-image">
         {product.images?.[0] ? (
           <img
-            src={`${import.meta.env.VITE_API_URL}/${product.images[0]}`}
-            alt={product.productName}
-          />
+  src={
+    product.images[0].startsWith("http")
+      ? product.images[0]
+      : `${import.meta.env.VITE_API_URL}/${product.images[0]}`
+  }
+  alt={product.productName}
+/>
         ) : (
           <div className="latest-product-no-image">
             No Image
