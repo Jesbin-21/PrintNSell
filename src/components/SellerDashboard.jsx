@@ -14,67 +14,6 @@ function SellerDashboard() {
   const [products, setProducts] = useState([]);
   const [editProduct, setEditProduct] = useState(null);
 
-  // Shop Edit Modal state
-  const [showShopEdit, setShowShopEdit] = useState(false);
-  const [shopData, setShopData] = useState({ name: "", shopName: "", location: "" });
-  const [shopImage, setShopImage] = useState(null);
-  const [shopPreview, setShopPreview] = useState("");
-
-  const openShopEditModal = () => {
-    setShopData({
-      name: seller.name || "",
-      shopName: seller.shopName || "",
-      location: seller.location || "",
-    });
-    setShopImage(null);
-    setShopPreview(
-      seller.Image
-        ? seller.Image.startsWith("http")
-          ? seller.Image
-          : `${import.meta.env.VITE_API_URL}/${seller.Image}`
-        : ""
-    );
-    setShowShopEdit(true);
-  };
-
-  const handleShopEditSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
-
-    if (!token) return;
-
-    try {
-      const formData = new FormData();
-      formData.append("name", shopData.name);
-      formData.append("shopName", shopData.shopName);
-      formData.append("location", shopData.location);
-      if (shopImage) {
-        formData.append("shopImage", shopImage);
-      }
-
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/seller`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        alert("Shop profile updated successfully");
-        setSeller(data.seller || {});
-        setShowShopEdit(false);
-      } else {
-        alert(data.message || "Failed to update shop profile");
-      }
-    } catch (err) {
-      console.log(err);
-      alert("Something went wrong");
-    }
-  };
-
   // DELETE PRODUCT
   const deleteProduct = async (id) => {
     console.log("Delete clicked", id);
@@ -198,7 +137,7 @@ function SellerDashboard() {
             <p>{seller.shopName || "My Shop"}</p>
             <Button
               text="Edit"
-              onClick={openShopEditModal}
+              onClick={() => navigate("/profile")}
             />
           </div>
         </div>
@@ -317,80 +256,6 @@ function SellerDashboard() {
         </div>
       )}
 
-      {/* ================= SHOP EDIT MODAL ================= */}
-      {showShopEdit && (
-        <div className="sellerModalOverlay">
-          <div className="sellerModalContent">
-            <h2>Edit Shop Profile</h2>
-            <form onSubmit={handleShopEditSubmit}>
-              <div className="inputField">
-                <h1>Seller Name</h1>
-                <input
-                  type="text"
-                  value={shopData.name}
-                  onChange={(e) =>
-                    setShopData({ ...shopData, name: e.target.value })
-                  }
-                  required
-                />
-              </div>
-
-              <div className="inputField">
-                <h1>Shop Name</h1>
-                <input
-                  type="text"
-                  value={shopData.shopName}
-                  onChange={(e) =>
-                    setShopData({ ...shopData, shopName: e.target.value })
-                  }
-                  required
-                />
-              </div>
-
-              <div className="inputField">
-                <h1>Location</h1>
-                <input
-                  type="text"
-                  value={shopData.location}
-                  onChange={(e) =>
-                    setShopData({ ...shopData, location: e.target.value })
-                  }
-                  required
-                />
-              </div>
-
-              <div className="inputField">
-                <h1>Shop Image</h1>
-                {shopPreview && (
-                  <div className="modalShopImagePreview">
-                    <img src={shopPreview} alt="Shop Preview" />
-                  </div>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                      setShopImage(file);
-                      setShopPreview(URL.createObjectURL(file));
-                    }
-                  }}
-                />
-              </div>
-
-              <div className="modalButtons">
-                <Button type="submit" text="Save Changes" />
-                <Button
-                  text="Cancel"
-                  variant="secondary"
-                  onClick={() => setShowShopEdit(false)}
-                />
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
