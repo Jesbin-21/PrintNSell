@@ -135,17 +135,20 @@ function ProductForm({ reloadPage, editProduct }) {
     window.location.reload();
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Submit clicked");
-    const token = localStorage.getItem("token");
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!token) {
-      alert("Please login first");
-      navigate("/login");
-      return;
-    }
+  console.log("Submit clicked");
 
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Please login first");
+    navigate("/login");
+    return;
+  }
+
+  try {
     const formData = new FormData();
 
     formData.append("productName", productName);
@@ -162,39 +165,56 @@ function ProductForm({ reloadPage, editProduct }) {
     formData.append("Price", Price);
     formData.append("Stock", Stock);
 
-    // Add all images
-    changedIndexes.forEach((index) => {
-      formData.append("images", images[index]);
-      formData.append("indexes", index);
-    });
+    // Compress and add only changed images
+    for (const index of changedIndexes) {
+      const image = images[index];
 
-    let res;
+      if (image instanceof File) {
+        const compressedImage = await compressImage(image);
+
+        formData.append("images", compressedImage);
+        formData.append("indexes", index);
+      }
+    }
+
+    let url;
+    let method;
 
     if (editProduct) {
-      res = await fetch(`${import.meta.env.VITE_API_URL}/product/${editProduct._id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      url = `${import.meta.env.VITE_API_URL}/product/${editProduct._id}`;
+      method = "PUT";
     } else {
-      res = await fetch(`${import.meta.env.VITE_API_URL}/productForm`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      url = `${import.meta.env.VITE_API_URL}/productForm`;
+      method = "POST";
     }
 
-    // 💡 FIX 2: Add parentheses here
+    const res = await fetch(url, {
+      method,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
     const data = await res.json();
-    alert(data.message);
-    if (data.success) {
-      reloadPage();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to save product");
     }
-  };
+
+    if (data.success) {
+      alert("Product added successfully!");
+      reloadPage();
+    } else {
+      alert(data.message || "Something went wrong");
+    }
+  } catch (error) {
+    console.error("Product submit error:", error);
+    alert(error.message || "Failed to add product");
+  }
+};
+
+
 
   return (
     <div className="productForm">
