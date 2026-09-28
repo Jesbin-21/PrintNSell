@@ -85,6 +85,22 @@ function Orders() {
 
     setActionId(productId);
 
+    // Optimistically update orders in UI immediately
+    const prevOrders = orders;
+    setOrders((prev) =>
+      prev.map((order) => {
+        if (order._id === orderId) {
+          return {
+            ...order,
+            products: order.products.map((item) =>
+              item._id === productId ? { ...item, status: "Cancelled" } : item
+            ),
+          };
+        }
+        return order;
+      })
+    );
+
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/orders/${orderId}/product/${productId}/cancel`,
@@ -98,14 +114,13 @@ function Orders() {
 
       const data = await res.json();
 
-      if (data.success) {
-        alert(data.message || "Order item cancelled successfully.");
-        fetchOrdersAndReviews();
-      } else {
+      if (!data.success) {
+        setOrders(prevOrders);
         alert(data.message || "Failed to cancel order");
       }
     } catch (error) {
       console.error(error);
+      setOrders(prevOrders);
       alert("Failed to cancel order");
     } finally {
       setActionId(null);

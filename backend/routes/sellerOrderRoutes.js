@@ -92,7 +92,8 @@ router.get("/seller/orders", async (req, res) => {
     })
       .populate("userId", "name email")
       .populate("products.productId")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
 
 
     // Only send this seller's products
@@ -103,8 +104,10 @@ router.get("/seller/orders", async (req, res) => {
           item.sellerId.toString() === sellerId.toString()
       );
 
+      const orderObj = order.toObject ? order.toObject() : order;
+
       return {
-        ...order.toObject(),
+        ...orderObj,
         products: sellerProducts,
       };
     });
@@ -285,12 +288,13 @@ router.put(
 
 
       // ==========================================
-      // UPDATE STATUS
+      // UPDATE STATUS ATOMICALLY
       // ==========================================
 
-      product.status = status;
-
-      await order.save();
+      await Order.updateOne(
+        { _id: orderId, "products._id": productId },
+        { $set: { "products.$.status": status } }
+      );
 
 
       // ==========================================

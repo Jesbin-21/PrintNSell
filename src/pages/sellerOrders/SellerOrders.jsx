@@ -51,26 +51,46 @@ function SellerOrders() {
   }
 
 
+  const [processingId, setProcessingId] = useState(null);
+
   async function updateStatus(
     orderId,
     productId,
     status
   ) {
+    if (processingId === productId) return;
 
     const token = localStorage.getItem("token");
 
-    try {
+    // Optimistically update orders in UI immediately (0 ms response!)
+    const previousOrders = orders;
+    setOrders((prev) =>
+      prev.map((order) => {
+        if (order._id === orderId) {
+          return {
+            ...order,
+            products: order.products.map((item) =>
+              item._id === productId ? { ...item, status } : item
+            ),
+          };
+        }
+        return order;
+      })
+    );
 
+    // Immediately notify navbar to update badge
+    window.dispatchEvent(new Event("orderStatusUpdated"));
+    setProcessingId(productId);
+
+    try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/seller/orders/${orderId}/product/${productId}/status`,
         {
           method: "PUT",
-
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-
           body: JSON.stringify({
             status,
           }),
@@ -79,23 +99,19 @@ function SellerOrders() {
 
       const data = await res.json();
 
-      if (data.success) {
-
-        getOrders();
+      if (!data.success) {
+        // Rollback on server error
+        setOrders(previousOrders);
         window.dispatchEvent(new Event("orderStatusUpdated"));
-
-      } else {
-
-        alert(data.message);
-
+        alert(data.message || "Failed to update status");
       }
-
     } catch (error) {
-
       console.log(error);
-
+      setOrders(previousOrders);
+      window.dispatchEvent(new Event("orderStatusUpdated"));
       alert("Failed to update status");
-
+    } finally {
+      setProcessingId(null);
     }
   }
 
@@ -301,12 +317,15 @@ function SellerOrders() {
                         <Button
                           variant="primary"
                           text={
-                            nextStatus === "Confirmed"
+                            processingId === item._id
+                              ? "Updating..."
+                              : nextStatus === "Confirmed"
                               ? "Confirm Order"
                               : nextStatus === "Shipped"
                               ? "Mark as Shipped"
                               : nextStatus
                           }
+                          disabled={processingId === item._id}
                           className="status-button"
                           onClick={() =>
                             updateStatus(
@@ -326,7 +345,12 @@ function SellerOrders() {
                         item.status === "Confirmed") && (
 
                         <Button
-                          text="Cancel Order"
+                          text={
+                            processingId === item._id
+                              ? "Cancelling..."
+                              : "Cancel Order"
+                          }
+                          disabled={processingId === item._id}
                           className="cancel-order-button"
                           onClick={() =>
                             updateStatus(
