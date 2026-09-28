@@ -229,7 +229,6 @@
   width: 100%;
   height: 440px;
   background: rgb(255, 255, 255);
-  backdrop-filter: blur(16px);
   border: 2px solid rgba(129, 129, 129, 0.459);
   overflow: hidden;
   transition: 0.2s;

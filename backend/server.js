@@ -21,8 +21,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve uploaded static files
-app.use("/uploads", express.static("uploads"));
+// Serve uploaded static files with browser caching
+app.use(
+  "/uploads",
+  express.static("uploads", {
+    maxAge: "30d",
+    immutable: true,
+  })
+);
 
 // Mount Routes
 app.use("/", authRoutes);

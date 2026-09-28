@@ -91,8 +91,9 @@ router.get("/products", protect, async (req, res, next) => {
 // GET ALL PRODUCTS (PUBLIC)
 router.get("/allProducts", async (req, res, next) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const products = await Product.find().sort({ createdAt: -1 }).lean();
 
+    res.set("Cache-Control", "public, max-age=30, stale-while-revalidate=60");
     res.json({
       success: true,
       products,

@@ -4,11 +4,32 @@ import { useNavigate } from "react-router-dom";
 import { Star, Search, X, ArrowUp } from "lucide-react";
 import "./Showcase.css";
 
+// In-memory cache across route navigations
+let cachedProducts = null;
+const getInitialProducts = () => {
+  if (cachedProducts && cachedProducts.length > 0) {
+    return cachedProducts;
+  }
+  try {
+    const stored = sessionStorage.getItem("cached_showcase_products");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cachedProducts = parsed;
+        return parsed;
+      }
+    }
+  } catch {
+    // Ignore storage errors
+  }
+  return [];
+};
+
 function ShowCase() {
   const navigate = useNavigate();
 
-  // All products fetched from the server
-  const [products, setProducts] = useState([]);
+  // All products fetched from the server (initialized with cache for instant loading)
+  const [products, setProducts] = useState(getInitialProducts);
 
   // Search and Filter states (beginner friendly!)
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,8 +43,17 @@ function ShowCase() {
     fetch(`${import.meta.env.VITE_API_URL}/allProducts`)
       .then((res) => res.json())
       .then((data) => {
-        if (data.success) {
+        if (data.success && Array.isArray(data.products)) {
           setProducts(data.products);
+          cachedProducts = data.products;
+          try {
+            sessionStorage.setItem(
+              "cached_showcase_products",
+              JSON.stringify(data.products)
+            );
+          } catch {
+            // Ignore storage errors
+          }
         }
       })
       .catch((err) => console.error("Error fetching all products:", err));
@@ -209,6 +239,8 @@ function ShowCase() {
                             : `${import.meta.env.VITE_API_URL}/${product.images[0]}`
                         }
                         alt={product.productName}
+                        loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <div className="no-product-image">No Image</div>
