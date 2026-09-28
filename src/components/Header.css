@@ -156,6 +156,54 @@
   justify-content: flex-start;
 }
 
+/* Seller Order Badge */
+.seller-nav-item {
+  position: relative;
+}
+
+.seller-order-badge {
+  position: absolute;
+  top: -8px;
+  right: 2px;
+  background: #ff2222;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(255, 34, 34, 0.55);
+  border: 2px solid #ffffff;
+  line-height: 1;
+  pointer-events: none;
+  animation: sellerBadgePulse 2s infinite ease-in-out;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+@keyframes sellerBadgePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+.mobile-sell-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.mobile-sell-wrapper .mobile-badge {
+  top: -6px;
+  right: 4px;
+}
+
 /* ---- Mobile Header ---- */
 
 @media (max-width: 480px) {
@@ -166,5 +214,13 @@
     font-size: 14px;
     font-weight: 600;
     padding: 8px;
+  }
+  .seller-order-badge {
+    top: -6px;
+    right: 0px;
+    min-width: 17px;
+    height: 17px;
+    font-size: 10px;
+    padding: 0 4px;
   }
 }  

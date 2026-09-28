@@ -1,9 +1,66 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 
 const router = express.Router();
+
+
+// ==========================================
+// GET SELLER NEW ORDERS COUNT
+// ==========================================
+
+router.get("/seller/orders/new-count", async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+      return res.status(401).json({
+        success: false,
+        count: 0,
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "secretkey"
+    );
+
+    const sellerId = decoded.userId;
+
+    let sellerObjId;
+    try {
+      sellerObjId = new mongoose.Types.ObjectId(sellerId);
+    } catch {
+      sellerObjId = sellerId;
+    }
+
+    const count = await Order.countDocuments({
+      products: {
+        $elemMatch: {
+          $or: [
+            { sellerId: sellerObjId },
+            { sellerId: sellerId.toString() },
+          ],
+          status: "Placed",
+        },
+      },
+    });
+
+    res.json({
+      success: true,
+      count,
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      count: 0,
+    });
+  }
+});
 
 
 // ==========================================

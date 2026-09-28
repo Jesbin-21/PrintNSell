@@ -82,6 +82,7 @@ function SellerOrders() {
       if (data.success) {
 
         getOrders();
+        window.dispatchEvent(new Event("orderStatusUpdated"));
 
       } else {
 
