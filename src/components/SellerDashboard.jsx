@@ -4,14 +4,57 @@ import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import "./seller.css";
 
+// Module-level caches for instant loading across route navigations
+let cachedSellerData = null;
+let cachedSellerProducts = null;
+
+const getInitialSeller = () => {
+  if (cachedSellerData && Object.keys(cachedSellerData).length > 0) {
+    return cachedSellerData;
+  }
+  try {
+    const stored = sessionStorage.getItem("cached_seller_data");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (parsed && typeof parsed === "object") {
+        cachedSellerData = parsed;
+        return parsed;
+      }
+    }
+  } catch {
+    // Ignore storage errors
+  }
+  return {};
+};
+
+const getInitialProducts = () => {
+  if (cachedSellerProducts && cachedSellerProducts.length > 0) {
+    return cachedSellerProducts;
+  }
+  try {
+    const stored = sessionStorage.getItem("cached_seller_products");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cachedSellerProducts = parsed;
+        return parsed;
+      }
+    }
+  } catch {
+    // Ignore storage errors
+  }
+  return [];
+};
+
 function SellerDashboard() {
   const navigate = useNavigate();
 
   // View state: "products" or "form"
   const [view, setView] = useState("products");
 
-  const [seller, setSeller] = useState({});
-  const [products, setProducts] = useState([]);
+  // Initialized with cache for instant display on page open
+  const [seller, setSeller] = useState(getInitialSeller);
+  const [products, setProducts] = useState(getInitialProducts);
   const [editProduct, setEditProduct] = useState(null);
 
   // DELETE PRODUCT
@@ -33,11 +76,18 @@ function SellerDashboard() {
     const data = await res.json();
 
     if (data.success) {
-      setProducts((prevProducts) =>
-        prevProducts.filter(
+      setProducts((prevProducts) => {
+        const updated = prevProducts.filter(
           (product) => product._id !== id
-        )
-      );
+        );
+        cachedSellerProducts = updated;
+        try {
+          sessionStorage.setItem("cached_seller_products", JSON.stringify(updated));
+        } catch {
+          // Ignore storage errors
+        }
+        return updated;
+      });
     } else {
       alert(data.message);
     }
@@ -59,8 +109,15 @@ function SellerDashboard() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setSeller(data || {});
+        if (data && !data.message) {
+          setSeller(data);
+          cachedSellerData = data;
+          try {
+            sessionStorage.setItem("cached_seller_data", JSON.stringify(data));
+          } catch {
+            // Ignore storage errors
+          }
+        }
       })
       .catch((err) => console.log(err));
   }, []);
@@ -81,37 +138,52 @@ function SellerDashboard() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setProducts(data || []);
+        if (Array.isArray(data)) {
+          setProducts(data);
+          cachedSellerProducts = data;
+          try {
+            sessionStorage.setItem("cached_seller_products", JSON.stringify(data));
+          } catch {
+            // Ignore storage errors
+          }
+        }
       })
       .catch((err) => console.log(err));
   }, []);
 
 
   const reloadProducts = async () => {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  if (!token) return;
+    if (!token) return;
 
-  try {
-    const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/products`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/products`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      if (Array.isArray(data)) {
+        setProducts(data);
+        cachedSellerProducts = data;
+        try {
+          sessionStorage.setItem("cached_seller_products", JSON.stringify(data));
+        } catch {
+          // Ignore storage errors
+        }
       }
-    );
-
-    const data = await res.json();
-
-    setProducts(data || []);
-    setEditProduct(null);
-    setView("products");
-  } catch (err) {
-    console.log(err);
-  }
-};
+      setEditProduct(null);
+      setView("products");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
 
   return (
@@ -120,15 +192,17 @@ function SellerDashboard() {
       <div className="banner">
         <div className="image">
           <img
-  src={
-    seller.Image
-      ? seller.Image.startsWith("http")
-        ? seller.Image
-        : `${import.meta.env.VITE_API_URL}/${seller.Image}`
-      : "/default-avatar.png"
-  }
-  alt={seller.shopName || "Seller"}
-/>
+            src={
+              seller.Image
+                ? seller.Image.startsWith("http")
+                  ? seller.Image
+                  : `${import.meta.env.VITE_API_URL}/${seller.Image}`
+                : "/default-avatar.png"
+            }
+            alt={seller.shopName || "Seller"}
+            decoding="async"
+            fetchPriority="high"
+          />
         </div>
 
         <div className="about">
@@ -193,6 +267,8 @@ function SellerDashboard() {
       : "/placeholder.png"
   }
   alt={product.productName}
+  loading="lazy"
+  decoding="async"
 />
                   </div>
 

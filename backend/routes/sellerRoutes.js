@@ -66,7 +66,7 @@ router.get("/seller", protect, async (req, res, next) => {
   try {
     const seller = await Seller.findOne({
       userId: req.user.userId,
-    });
+    }).lean();
 
     if (!seller) {
       return res.json({

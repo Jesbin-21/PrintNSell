@@ -80,7 +80,7 @@ router.get("/products", protect, async (req, res, next) => {
   try {
     const products = await Product.find({
       userId: req.user.userId,
-    }).sort({ createdAt: -1 });
+    }).sort({ createdAt: -1 }).lean();
 
     res.json(products);
   } catch (err) {
