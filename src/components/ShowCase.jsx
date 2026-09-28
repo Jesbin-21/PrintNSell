@@ -202,29 +202,14 @@ function ShowCase() {
                 <div className="wrapper">
                   <div className="card-image">
                     {product.images?.[0] ? (
-                      // <img
-                      //   src={
-                      //     product.images[0].startsWith("http")
-                      //       ? product.images[0]
-                      //       : `${import.meta.env.VITE_API_URL}/${product.images[0]}`
-                      //   }
-                      //   alt={product.productName}
-                      // />
-
-
                       <img
-  src={
-    product.images[0].startsWith("http")
-      ? product.images[0].replace(
-          "/upload/",
-          "/upload/w_500,q_auto,f_auto/"
-        )
-      : `${import.meta.env.VITE_API_URL}/${product.images[0]}`
-  }
-  alt={product.productName}
-  loading="lazy"
-  decoding="async"
-/>
+                        src={
+                          product.images[0].startsWith("http")
+                            ? product.images[0]
+                            : `${import.meta.env.VITE_API_URL}/${product.images[0]}`
+                        }
+                        alt={product.productName}
+                      />
                     ) : (
                       <div className="no-product-image">No Image</div>
                     )}
