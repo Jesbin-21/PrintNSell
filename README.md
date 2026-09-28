@@ -295,6 +295,7 @@ The backend runs on:
 http://localhost:5000
 ```
 
+
 ---
 
 ## 🌐 Deployment
@@ -341,3 +342,53 @@ Razorpay • Git • GitHub
 ## 📄 License
 
 This project is created for educational and portfolio purposes.
+=======
+
+---
+
+## 🌐 Deployment
+
+The application can be deployed using services such as:
+
+* Render
+* MongoDB Atlas
+* Cloudinary
+
+The frontend and backend can be deployed as separate services.
+
+---
+
+## 🔮 Future Improvements
+
+* 📦 Real-time order tracking
+* ❤️ Wishlist
+* 🔔 Order notifications
+* 💬 Seller/customer messaging
+* 📊 Advanced seller analytics
+* 🔎 Advanced product search
+* 🏷️ Discount and coupon system
+* 📱 Progressive Web App support
+
+---
+
+## 👨‍💻 Author
+
+**Jesbin Jaison**
+
+BCA Graduate | MERN Full-Stack Developer
+
+### Technologies
+
+```text
+React.js • Node.js • Express.js • MongoDB
+JavaScript • REST APIs • JWT • Cloudinary
+Razorpay • Git • GitHub
+```
+
+---
+
+## 📄 License
+
+This project is created for educational and portfolio purposes.
+
+>>>>>>> 920b58b (added read me)
