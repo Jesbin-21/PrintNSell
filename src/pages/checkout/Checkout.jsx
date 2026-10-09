@@ -488,8 +488,16 @@ function Checkout() {
                 <div className="checkout-product" key={item._id}>
                   {product.images?.[0] ? (
                     <img
-                      src={`${import.meta.env.VITE_API_URL}/${product.images[0]}`}
+                      src={
+                        product.images[0].startsWith("http")
+                          ? product.images[0]
+                          : `${import.meta.env.VITE_API_URL}/${product.images[0].replace(/^\//, "")}`
+                      }
                       alt={product.productName}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "/placeholder.png";
+                      }}
                     />
                   ) : (
                     <div className="no-product-image">No Image</div>

@@ -365,6 +365,23 @@
   border-radius: 9px;
 
   border: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.no-product-image {
+  width: 65px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9px;
+  border: 1px solid #eee;
+  flex-shrink: 0;
+  text-align: center;
 }
 
 .checkout-product-info {
