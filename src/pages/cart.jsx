@@ -29,6 +29,7 @@ function Cart() {
   const navigate = useNavigate();
   const [cart, setCart] = useState(getInitialCart);
   const [loading, setLoading] = useState(() => !cachedCart || cachedCart.length === 0);
+  const [updatingId, setUpdatingId] = useState(null);
 
   useEffect(() => {
     getCart();
@@ -66,29 +67,11 @@ function Cart() {
   }
 
   async function updateQuantity(cartId, change) {
+    if (updatingId) return;
     const token = localStorage.getItem("token");
+    if (!token) return;
 
-    // Optimistically update the UI immediately
-    setCart((prevCart) => {
-      const nextCart = prevCart
-        .map((item) => {
-          if (item._id === cartId) {
-            const newQty = item.quantity + change;
-            if (newQty <= 0) return null;
-            return { ...item, quantity: newQty };
-          }
-          return item;
-        })
-        .filter(Boolean);
-
-      cachedCart = nextCart;
-      try {
-        sessionStorage.setItem("cached_cart", JSON.stringify(nextCart));
-      } catch {
-        // Ignore storage errors
-      }
-      return nextCart;
-    });
+    setUpdatingId(cartId);
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/cart/${cartId}`, {
@@ -105,14 +88,32 @@ function Cart() {
       const data = await res.json();
 
       if (data.success) {
-        getCart();
+        setCart((prevCart) => {
+          let nextCart;
+          if (data.quantity !== undefined && data.quantity > 0) {
+            nextCart = prevCart.map((item) =>
+              item._id === cartId ? { ...item, quantity: data.quantity } : item
+            );
+          } else {
+            nextCart = prevCart.filter((item) => item._id !== cartId);
+          }
+          cachedCart = nextCart;
+          try {
+            sessionStorage.setItem("cached_cart", JSON.stringify(nextCart));
+          } catch {
+            // Ignore storage errors
+          }
+          return nextCart;
+        });
       } else {
-        alert(data.message);
+        alert(data.message || "Failed to update quantity");
         getCart();
       }
     } catch (err) {
       console.error("Failed to update quantity:", err);
       getCart();
+    } finally {
+      setUpdatingId(null);
     }
   }
 
@@ -188,6 +189,7 @@ function Cart() {
                     <button
                       className="cart-remove-btn"
                       onClick={() => removeItem(item._id, item.quantity)}
+                      disabled={updatingId === item._id}
                       title="Remove item"
                       aria-label="Remove item"
                     >
@@ -202,7 +204,7 @@ function Cart() {
                       <button
                         className="add"
                         onClick={() => updateQuantity(item._id, -1)}
-                        disabled={item.quantity <= 1}
+                        disabled={item.quantity <= 1 || updatingId === item._id}
                         title={item.quantity <= 1 ? "Minimum quantity is 1" : "Decrease"}
                         aria-label="Decrease quantity"
                       >
@@ -214,7 +216,7 @@ function Cart() {
                       <button
                         className="add"
                         onClick={() => updateQuantity(item._id, 1)}
-                        disabled={isOutOfStock || isMaxReached}
+                        disabled={isOutOfStock || isMaxReached || updatingId === item._id}
                         title={
                           isOutOfStock
                             ? "Out of stock"

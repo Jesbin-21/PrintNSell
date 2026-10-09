@@ -150,10 +150,7 @@ router.put("/cart/:id", protect, async (req, res, next) => {
     const { change } = req.body;
 
 
-    const item = await Cart.findById(
-      req.params.id
-    ).populate("productId", "productName price stock images");
-
+    const item = await Cart.findById(req.params.id);
 
     if (
       !item ||
@@ -166,8 +163,7 @@ router.put("/cart/:id", protect, async (req, res, next) => {
       });
     }
 
-
-    const product = item.productId;
+    const product = await Product.findById(item.productId);
 
 
     // Product was deleted
