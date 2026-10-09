@@ -118,7 +118,7 @@ router.get("/cart", protect, async (req, res, next) => {
 
     const cart = await Cart.find({
       userId: req.user.userId,
-    }).populate("productId");
+    }).populate("productId", "productName price stock images");
 
 
     // Remove deleted products
@@ -150,7 +150,7 @@ router.put("/cart/:id", protect, async (req, res, next) => {
 
     const item = await Cart.findById(
       req.params.id
-    ).populate("productId");
+    ).populate("productId", "productName price stock images");
 
 
     if (
