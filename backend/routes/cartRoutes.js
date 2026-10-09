@@ -118,7 +118,9 @@ router.get("/cart", protect, async (req, res, next) => {
 
     const cart = await Cart.find({
       userId: req.user.userId,
-    }).populate("productId", "productName price stock images");
+    })
+      .populate("productId", "productName price stock images")
+      .lean();
 
 
     // Remove deleted products

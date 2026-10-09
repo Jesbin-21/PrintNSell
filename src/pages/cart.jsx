@@ -4,9 +4,31 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Trash2, ShoppingCart   } from "lucide-react";
 
+// In-memory cache across route navigations
+let cachedCart = null;
+const getInitialCart = () => {
+  if (cachedCart && cachedCart.length > 0) {
+    return cachedCart;
+  }
+  try {
+    const stored = sessionStorage.getItem("cached_cart");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cachedCart = parsed;
+        return parsed;
+      }
+    }
+  } catch {
+    // Ignore storage errors
+  }
+  return [];
+};
+
 function Cart() {
   const navigate = useNavigate();
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(getInitialCart);
+  const [loading, setLoading] = useState(() => !cachedCart || cachedCart.length === 0);
 
   useEffect(() => {
     getCart();
@@ -14,7 +36,10 @@ function Cart() {
 
   async function getCart() {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/cart`, {
@@ -24,16 +49,46 @@ function Cart() {
       });
 
       const data = await res.json();
-      if (data.success) {
+      if (data.success && Array.isArray(data.cart)) {
         setCart(data.cart);
+        cachedCart = data.cart;
+        try {
+          sessionStorage.setItem("cached_cart", JSON.stringify(data.cart));
+        } catch {
+          // Ignore storage errors
+        }
       }
     } catch (err) {
       console.error("Failed to load cart:", err);
+    } finally {
+      setLoading(false);
     }
   }
 
   async function updateQuantity(cartId, change) {
     const token = localStorage.getItem("token");
+
+    // Optimistically update the UI immediately
+    setCart((prevCart) => {
+      const nextCart = prevCart
+        .map((item) => {
+          if (item._id === cartId) {
+            const newQty = item.quantity + change;
+            if (newQty <= 0) return null;
+            return { ...item, quantity: newQty };
+          }
+          return item;
+        })
+        .filter(Boolean);
+
+      cachedCart = nextCart;
+      try {
+        sessionStorage.setItem("cached_cart", JSON.stringify(nextCart));
+      } catch {
+        // Ignore storage errors
+      }
+      return nextCart;
+    });
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/cart/${cartId}`, {
@@ -53,9 +108,11 @@ function Cart() {
         getCart();
       } else {
         alert(data.message);
+        getCart();
       }
     } catch (err) {
       console.error("Failed to update quantity:", err);
+      getCart();
     }
   }
 
@@ -83,7 +140,11 @@ function Cart() {
           {cart.length > 0 && <span className="cart-count-badge">{cart.length} {cart.length === 1 ? 'item' : 'items'}</span>}
         </div>
 
-        {cart.length === 0 ? (
+        {loading && cart.length === 0 ? (
+          <div className="cart-empty-state" style={{ minHeight: "260px" }}>
+            <p style={{ color: "#64748b" }}>Loading cart items...</p>
+          </div>
+        ) : cart.length === 0 ? (
           <div className="cart-empty-state">
             <div className="empty-cart-icon">{<ShoppingCart size={50}/>}</div>
             <h3>Your cart is empty</h3>
